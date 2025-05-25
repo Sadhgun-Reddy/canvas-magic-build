@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { MapPin, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import type { CheckedState } from '@radix-ui/react-checkbox';
 
 interface OrderReviewProps {
   onComplete: (data: any) => void;
@@ -32,6 +32,10 @@ export default function OrderReview({
         order: orderData,
       });
     }, 2000);
+  };
+
+  const handleTermsChange = (checked: CheckedState) => {
+    setAcceptTerms(checked === true);
   };
 
   const formatPrice = (price: number) => {
@@ -135,7 +139,7 @@ export default function OrderReview({
           <Checkbox
             id="terms"
             checked={acceptTerms}
-            onCheckedChange={setAcceptTerms}
+            onCheckedChange={handleTermsChange}
             className="mt-1 focus-ring"
           />
           <div className="text-sm text-gray-700">

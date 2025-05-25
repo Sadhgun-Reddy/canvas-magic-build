@@ -72,7 +72,23 @@ export default function Checkout() {
     );
   }
 
-  const CurrentStepComponent = steps[currentStep - 1].component;
+  const renderCurrentStep = () => {
+    if (currentStep === 1) {
+      return <AddressForm onComplete={handleStepComplete} />;
+    } else if (currentStep === 2) {
+      return <PaymentMethod onComplete={handleStepComplete} />;
+    } else if (currentStep === 3) {
+      return (
+        <OrderReview
+          onComplete={handleStepComplete}
+          addressData={addressData}
+          paymentData={paymentData}
+          orderData={{ items: state.items, total: finalTotal }}
+        />
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -95,12 +111,7 @@ export default function Checkout() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
         {/* Main Content */}
         <div className="lg:col-span-2">
-          <CurrentStepComponent
-            onComplete={handleStepComplete}
-            addressData={addressData}
-            paymentData={paymentData}
-            orderData={{ items: state.items, total: finalTotal }}
-          />
+          {renderCurrentStep()}
         </div>
 
         {/* Order Summary Sidebar */}
